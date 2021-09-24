@@ -1,0 +1,15 @@
+.create-user-div {
+    float: right;
+}
+.row.custom-body-row {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+a.btn.btn-primary.add {
+    border-radius: 20px;
+}
+.page-item.active .page-link {
+    background-color: #33afbd;
+    border-color: #33afbd;
+    color: white !important;
+}

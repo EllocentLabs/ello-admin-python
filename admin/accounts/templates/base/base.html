@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
+    <meta name="author" content="Coderthemes">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+
+    <title>
+        {% if user.is_authenticated == False and request.path == '/' %}
+            Login
+        {% else %}
+            {{title}}
+        {% endif %}
+             - Ellocent
+    </title>
+
+    <!-- App css -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/custom-page.css' %}"   rel="stylesheet" type="text/css" />
+
+    <!-- Toast (Notification) -->
+    <link href="{% static 'assets/plugins/toastr/toastr.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/plugins/switchery/switchery.min.css' %}" rel="stylesheet"/>
+
+    <!-- Page css -->{% block css %}{% endblock css %}
+    <!-- Modernizr -->
+    <script src="{% static 'assets/js/modernizr.min.js' %}"></script>
+
+</head>
+
+<body class="fixed-left">
+    {% if user.is_authenticated %}
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- Header Start -->
+        {% include "base/header.html" %}
+        <!-- Header End -->
+
+        <!-- ========== Left Sidebar Start ========== -->
+        {% include "base/sidebar.html" %}
+        <!-- Left Sidebar End -->
+
+        <!-- Start right Content here -->
+        <div class="content-page">
+            <div class="content">
+                <div class="container-fluid">
+                    {% block content %}
+                    {% endblock content %}
+                </div> 
+            </div> 
+            <footer class="footer text-right">
+                &copy;2021 Ellocent Labs. All Rights Reserved.
+            </footer>
+        </div>
+        <!-- End Right content here -->
+
+        {% else %} {% if request.path == '/' %} {% include "login.html" %}
+        {% elif '/login' in request.path %}
+        {% block forgot %} {% endblock %}
+        {% else %} {% include "error404.html" %} {% endif %} {% endif %}
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- jQuery  -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/detect.js' %}"></script>
+    <script src="{% static 'assets/js/fastclick.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.blockUI.js' %}"></script>
+    <script src="{% static 'assets/js/waves.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nicescroll.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollTo.min.js' %}"></script>
+
+    <!-- App js -->
+    <script src="{% static 'assets/js/jquery.core.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.app.js' %}"></script>
+
+    <!-- Toastr js -->
+    <script src="{% static 'assets/plugins/toastr/toastr.min.js' %}"></script>
+    {% if messages %} {% for message in messages %} 
+    
+    <!-- Toast message -->
+    <script>
+        toastr. {{ message.tags }}("{{ message }}");
+     </script>
+    {% endfor %} {% endif %}
+    <!-- page js -->{% block js %}{% endblock js %}
+
+     <!-- Validation js (Parsleyjs) -->
+    <script type="text/javascript" src="{% static 'assets/plugins/parsleyjs/dist/parsley.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('form').parsley();
+        });
+    </script>   
+</body>
+
+</html>

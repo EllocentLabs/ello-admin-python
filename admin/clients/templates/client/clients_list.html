@@ -1,0 +1,205 @@
+{% extends "base/base.html" %}
+{% load static %}{% load static i18n %}
+{% block css %}
+    <!-- DataTables -->
+    <link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/plugins/datatables/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/plugins/responsive-table/css/rwd-table.min.css' %}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{% static 'assets/css/custom-table.css' %}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{% static 'assets/css/custom-table-2.css' %}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{% static 'assets/plugins/sweet-alert/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock css %}
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item active"><a href="{{request.path}}">{% trans 'Clients' %}</a></li>
+        </ol>
+    </nav>
+</div>
+<div class="container-fluid">
+    <div class="card-box">
+        <div class="create-user-div">
+            <a href="{% url 'add-clients' %}" class="btn btn-primary add" >Add Clients</a>
+        </div>
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'Client Details' %}</h4>
+        <div class="row custom-table-row">
+            <div class="col-12">
+                <div class="card-box table-responsive client-table">
+                    <div class="display-buttons">
+                        <form action="{% url 'clients' %}">
+                            <div class="search-client">
+                                <button type="submit" class="btn btn-orange fa fa-search"></button>
+                                <input type="text" name="name" id="name" placeholder="Search" value="{{search_name}}">
+                            </div>
+                        </form>
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>BusIness Name</th>
+                                <th data-priority="1">BusIness Phone</th>
+                                <th data-priority="2">Person Name</th>
+                                <th data-priority="3">Username</th>
+                                <th data-priority="4">Email Status</th>
+                                <th data-priority="5">Account Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for client in clients %}
+                            <tr>
+                                <td>{{client.businessName}}</td>
+                                <td>{{client.businessPhone}}</td>
+                                <td>{{client.personName}}</td>
+                                <td>{{client.username}}</td>
+                                <td class="center">
+                                    {% if client.emailStatus == True %}
+                                    <div class="email-success fa fa-check-circle success" title="Verified"></div>
+                                    {% else %}
+                                    <div class="email-error fa fa-times-circle failed" title="Not Verified"></div>
+                                    {% endif %}
+                                </td>
+                                <td class="center">
+                                    <form action="{% url 'change-status' pk=client.id %}" method="POST">
+                                        {% csrf_token %}
+                                        {% if client.status == True %}
+                                            <button class="btn btn-success client-status fa fa-check-circle success" title="Active"></button>
+                                        {% else %}
+                                            <button class="btn btn-danger client-status fa fa-times-circle failed" title="Inactive"></button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                                <td class="center">
+                                    <a class="fa fa-eye" data-toggle="modal" title="View Details" data-target="#ViewModal{{client.id}}"></a>
+                                    <a href="{% url 'update-clients' pk=client.id %}" title="Edit" class="ti-pencil-alt"></a>
+                                    <a class="ti-trash" data-toggle="modal" title="Delete" data-target="#ModalCenter{{client.id}}"></a>
+                                    <!-- View-Modal -->
+                                    <div class="modal fade" id="ViewModal{{client.id}}" tabindex="-1" role="dialog" aria-labelledby="ViewModalTitle{{client.id}}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="=ViewModalTitle{{client.id}}">User Detail</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <b>
+                                                            <p>ID</p>
+                                                            <p>Business Name</p>
+                                                            <p>Business Address</p>
+                                                            <p>Business Phone</p>
+                                                            <p>Person Name</p>
+                                                            <p>Person Phone</p>
+                                                            <p>Person Email</p>
+                                                            <p>Username</p>
+                                                            <p>Plan</p>
+                                                            <p>Email Status</p>
+                                                            <p>Status</p>
+                                                            <p>Created</p>
+                                                            <p>Updated</p>
+                                                        </b>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="detail-p-values">{{client.id}}</p>
+                                                        <p class="detail-p-values">{{client.businessName}}</p>
+                                                        <p class="detail-p-values">{{client.businessAddress}}</p>
+                                                        <p class="detail-p-values">{{client.businessPhone}}</p>
+                                                        <p class="detail-p-values">{{client.personName}}</p>
+                                                        <p class="detail-p-values">{{client.personPhone}}</p>
+                                                        <p class="detail-p-values">{{client.personEmail}}</p>
+                                                        <p class="detail-p-values">{{client.username}}</p>
+                                                        <p class="detail-p-values">{{client.plan}}</p>
+                                                        <p class="detail-p-values">{{client.emailStatus}}</p>
+                                                        <p class="detail-p-values">{{client.status}}</p>
+                                                        <p class="detail-p-values">{{client.created}}</p>
+                                                        <p class="detail-p-values">{{client.updated}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <!-- Delete-Modal -->
+                                    <div class="modal fade" id="ModalCenter{{client.id}}" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle{{client.id}}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="=ModalCenterTitle{{client.id}}">Confirm delete</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="{% url 'delete-clients' pk=client.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                </form>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="pagination client">
+                            <div class="pageNumber">
+                                <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                            </div>
+                            <div class="pagination-url">
+                                <div class="previous-link next-current-previous">
+                                    <a {% if page_obj.has_previous %}
+                                        href="{% url 'clients' %}?page={{ page_obj.previous_page_number }}&paginate_by={{ page_by }}{% if search_name %}&name={{ search_name }}{% endif %}"
+                                    {% endif %}
+                                    class="link" >Previous</a>
+                                </div>
+                                <div class="current-page-number next-current-previous">
+                                    <span class="page-current">
+                                        {{ page_obj.number }}
+                                    </span>
+                                </div>
+                                <div class="next-link next-current-previous">
+                                    <a {% if page_obj.has_next %}
+                                        href="{% url 'clients' %}?page={{ page_obj.next_page_number }}&paginate_by={{ page_by }}{% if search_name %}&name={{ search_name }}{% endif %}"
+                                    {% endif %}
+                                    class="link" >Next</a>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end row -->
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'assets/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+            table.buttons().container()
+                .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <script src="{% static 'assets/plugins/responsive-table/js/rwd-table.min.js' %}" type="text/javascript"></script>
+    <script>
+        $(function() {
+            $('.custom-body-row').responsiveTable({
+                addDisplayAllBtn: 'btn btn-default'
+            });
+        });
+    </script>
+    <script src="{% static 'assets/plugins/sweet-alert/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'assets/pages/jquery.sweet-alert.init.js' %}"></script>
+{% endblock js %}

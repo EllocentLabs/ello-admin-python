@@ -1,0 +1,43 @@
+{% load static %} {% load static i18n %}
+<div class="left side-menu">
+    <div class="sidebar-inner slimscrollleft">
+        <div class="user-box">
+            <h5><a href="#">{{user.name }}</a></h5>
+            <ul class="list-inline">
+                {% trans 'Change Password' as Pass %}
+                {% trans 'Logout' as Out %}
+                <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title=""
+                    data-original-title="{{Pass}}">
+                    <a href="{% url 'changepassword' %}">
+                        <i class="mdi mdi-settings"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title=""
+                    data-original-title="{{Out}}">
+                    <a href="{% url 'logout' %}" class="text-custom">
+                        <i class="mdi mdi-power"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- End User -->
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="{% url 'dashboard' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span>
+                            Dashboard </span> </a>
+                </li>
+                <li>
+                    <a href="{% url 'clients' %}" class="waves-effect {% if '/client' in request.path %} active {% endif %}"><i class="fa fa-users"></i> <span>
+                            Clients</span> </a>
+                </li>
+                
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Sidebar -->
+        <div class="clearfix"></div>
+    </div>
+</div>

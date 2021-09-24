@@ -1,0 +1,112 @@
+:root {
+  --sf-color-orange: #FF744D;
+  --sf-color-secondary-orange: #de552f;
+  --sf-color-blue: #33AFBD;
+  --sf-color-dark-blue: #213c53;
+}
+
+.breadcrumb {
+  background-color: #dcdcdc !important;
+  padding: 10px 20px !important;
+}
+
+ol.breadcrumb {
+  font-size: 18px;
+}
+
+a {
+  color: var(--sf-color-dark-blue)!important;
+}
+
+.breadcrumb-item.active>a {
+  color: var(--sf-color-blue) !important;
+}
+
+a:hover {
+  color: var(--sf-color-blue) !important;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sf-color-blue);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sf-color-dark-blue);
+}
+.navbar-default {
+  padding: 0px 20px;
+}
+
+a.btn.btn-secondary.waves-effect.waves-light.m-l-5 {
+  color: white !important;
+} 
+p.errorlist {
+  color: #ff5b5b;
+  font-size: 12px;
+}
+.email-success {
+  color: #2ca52c;
+}
+.email-error {
+  color: #ff5b5b;
+}
+a.ti-trash {
+  cursor: pointer;
+}
+.btn-orange{
+  background-color: var(--sf-color-orange) !important;
+  border: 1px solid var(--sf-color-orange) !important;
+  color: white !important;
+}
+.btn-orange:hover{
+  background-color: var(--sf-color-secondary-orange) !important;
+  border: 1px solid var(--sf-color-secondary-orange) !important;
+  color: white !important;
+}
+.btn-primary{
+  background-color: var(--sf-color-blue) !important;
+  border: 1px solid var(--sf-color-blue) !important;
+}
+.btn-primary:hover{
+  background-color: var(--sf-color-dark-blue) !important;
+  border: 1px solid var(--sf-color-dark-blue) !important;
+  color: white !important;
+}
+#sidebar-menu{
+  color: var(--sf-color-dark-blue) !important;
+}
+#sidebar-menu > ul > li > a.active{
+  color: var(--sf-color-blue) !important;
+  border-left: 3px solid var(--sf-color-dark-blue) !important;
+}
+.logo{
+  color: var(--sf-color-blue) !important
+}
+.logo span span {
+  color: var(--sf-color-orange) !important
+} 
+.success {
+  color: green;
+}
+.failed{
+  color:red ;
+}
+.modal-title {
+  font-size: 20px;
+}
+#sidebar-menu ul ul li.active a {
+  color: #71b6f9 !important;
+}
+.mdi-chevron-down:before {
+  content: "\F140";
+}

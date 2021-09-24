@@ -1,0 +1,31 @@
+{% extends "admin.html" %} {% load static %} {% load static i18n %} {% block forgot %}
+<div class="clearfix"></div>
+<div class="wrapper-page">
+    <div class="text-center">
+        <a href="/" class="logo"><span class="dg-logo">Ellocent Labs</span></a>
+    </div>
+    <div class="m-t-40 card-box">
+        <div class="text-center">
+            <h4 class="text-uppercase font-bold m-b-0">{{email}}</h4>
+        </div>
+        <div class="p-20">
+            <form class="form-horizontal m-t-20" data-parsley-validate novalidate action="/login/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="email" value="{{email}}" />
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class="form-control" name="" type="number" minlength="6" maxlength="6" required placeholder="{% trans 'Enter ' %}" />
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20 m-b-0">
+                    <div class="col-xs-12">
+                        <button class="btn btn-block waves-effect waves-light po_button" type="submit">{% trans 'Submit' %}<i id="btn" class="fa"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- end card-box -->
+</div>
+<!-- end wrapper page -->
+{% endblock %}

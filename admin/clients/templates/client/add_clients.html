@@ -1,0 +1,58 @@
+{% extends "base/base.html" %}
+{% load static %}{% load static i18n %}
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'clients' %}">{% trans 'Clients' %}</a></li>
+            <li class="breadcrumb-item active"><a href="{{request.path}}">{% trans 'Add Clients' %}</a></li>
+        </ol>
+    </nav>
+</div>
+<div class="container-fluid">
+    <div class="card-box">
+        <h4 class="header-title m-t-0 m-b-10">{% trans 'Add New Client' %}</h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-box">
+                        <form action="{{request.path}}" method="POST" data-parsley-validate novalidate>
+                            {% csrf_token %}
+                            {% for field in form.visible_fields  %}
+                            <div class="form-group">
+                                {{field.label_tag}}
+                                {{field}}
+                                <p class="errorlist">{{ field.errors.as_text }}</p>
+                            </div>
+                            {% endfor %}
+                            <div class="form-group">
+                                <label for="passWord2">Confirm Password:</label>
+                                <input data-parsley-equalto="#id_password" type="password" required="" placeholder="Enter Password Again" class="form-control" id="passWord2">
+                            </div>
+                            <div class="">
+                                <div class="col-12">
+                                    <div class="checkbox checkbox-inverse">
+                                        <input id="checkbox01" onclick="passwordShow()" type="checkbox" data-parsley-multiple="checkbox01">
+                                        <label for="checkbox01">Show Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-right m-b-0">
+                                <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                    Submit
+                                </button>
+                                <a class="btn btn-secondary waves-effect waves-light m-l-5" href="{% url 'clients' %}">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div> <!-- end row -->
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'assets/js/custom.js' %}"></script>  
+{% endblock js %}
